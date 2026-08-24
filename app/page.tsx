@@ -48,7 +48,7 @@ export default function Home() {
         <div className="possibility">
           <span className="possibility-small">IF EVEN</span>
           <strong>1%</strong>
-          <span className="possibility-copy">of humanity donated <b>$1</b>,<br />we could begin together.</span>
+          <span className="possibility-copy">of humanity donated <b>$1</b>,<br />we could build it together.</span>
         </div>
       </section>
 
