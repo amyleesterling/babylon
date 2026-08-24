@@ -1,6 +1,62 @@
 # babylon
 Humans team up to build a world wonder 
 
+perspectives from the ai:
+
+BABYLON
+
+Internal One-Page Plan
+
+A world wonder, imagined and built by the world.
+
+The Idea
+
+First, imagine Babylon.
+
+A modern Hanging Garden: one hundred acres of water, trees, architecture, peace and wonder—created by the world, for the world, with its core gardens free to everyone.
+
+The Question
+
+Why don’t we have this wonder today?
+Why couldn’t we?
+
+If just 1% of humanity gave $1, we would have more than $80 million to begin.
+
+Phase One — Build the Movement
+
+The first structure is the website.
+
+Its job is to make Babylon vivid, invite the world in, and turn a beautiful idea into a global community.
+
+The website invites everyone to:
+
+* Join the community
+* Submit a garden sketch or idea
+* Nominate a remarkable 100-acre site
+* Offer expertise, land, plants or partnership
+* Pledge, donate and help tell the world
+
+Phase One produces:
+
+* A public website and visual identity
+* A founding story, manifesto and principles
+* An Atlas of Babylon for garden ideas
+* A global community of members, ambassadors and partners
+* A site nomination and evaluation process
+* Transparent governance and funding
+* A worldwide press and social launch
+* A rigorous feasibility study and real cost model
+
+Definition of Success
+
+The world knows the idea. A real community exists. Garden and site submissions are flowing. Trusted partners are joining. Enough support is pledged to commission the serious site, feasibility and financial work.
+
+Then
+
+Find the land → Design the wonder → Price it honestly → Raise the capital → Build and steward Babylon
+
+North Star: Make Babylon a global idea before it becomes a physical place.
+
 
 Here's the plan. Working name: **Babylon** (the org) — the garden gets its real name later, from the community that builds it.
 
