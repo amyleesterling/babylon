@@ -59,14 +59,17 @@ export default function Home() {
           <p>Not a monument to one person, one nation, or one moment. A living place that belongs to everyone: shade and water, wildness and architecture, voices drifting through trees.</p>
           <p>We will visit across decades and watch it change. Trees will grow. Paths will soften. Children will return with children of their own.</p>
         </div>
-        <div className="garden-window" aria-label="An imagined garden of sun, water, and green terraces">
-          <div className="window-sun" />
-          <div className="terrace terrace-one" />
-          <div className="terrace terrace-two" />
-          <div className="terrace terrace-three" />
-          <div className="tiny-people"><span /><span /><span /></div>
-          <p>Warm sun. Cool water.<br />Happy voices.</p>
-        </div>
+        <figure className="garden-window">
+          <img
+            className="garden-render"
+            src="/babylon-lush-v4.jpg"
+            alt="An imagined Babylon filled with garden terraces, waterfalls, flowers, palms, and people gathering beside the water"
+            width="1535"
+            height="1024"
+            loading="lazy"
+          />
+          <figcaption>Warm sun. Cool water.<br />Happy voices.</figcaption>
+        </figure>
       </section>
 
       <section className="movement" id="movement">

@@ -52,17 +52,10 @@ h1 em { color: var(--leaf); font-weight: 400; }
 .vision-copy h2, .section-heading h2, .atlas-intro h2, .promise h2, .path h2, .founding h2 { margin: 0; font-family: Georgia, serif; font-weight: 400; letter-spacing: -.045em; line-height: 1; }
 .vision-copy h2, .section-heading h2, .atlas-intro h2 { font-size: clamp(45px, 5.3vw, 78px); }
 .vision-copy > p:not(.section-label) { max-width: 610px; margin: 30px 0 0; color: #456054; font-size: 17px; line-height: 1.75; }
-.garden-window { position: relative; min-height: 650px; overflow: hidden; background: linear-gradient(180deg, #edce7b 0%, #e7ddb5 42%, #6c926c 43%, #254e38 100%); }
-.window-sun { position: absolute; top: 9%; right: 15%; width: 30%; aspect-ratio: 1; border-radius: 50%; background: rgba(255,244,190,.78); box-shadow: 0 0 80px rgba(255,238,168,.7); }
-.terrace { position: absolute; bottom: -5%; height: 48%; border-radius: 50% 50% 0 0; background: linear-gradient(180deg, #73936a, #234a34); box-shadow: 0 -15px 30px rgba(25,63,41,.15); }
-.terrace::after { content: ''; position: absolute; top: 18%; left: 8%; right: 8%; height: 18%; border: 2px solid rgba(240,222,167,.55); border-width: 2px 0 0; border-radius: 50%; }
-.terrace-one { left: -18%; width: 70%; }
-.terrace-two { right: -15%; width: 75%; height: 58%; }
-.terrace-three { left: 22%; width: 63%; height: 37%; background: linear-gradient(180deg, #91a67a, #31573f); }
-.tiny-people { position: absolute; z-index: 3; bottom: 27%; left: 50%; display: flex; gap: 18px; }
-.tiny-people span { position: relative; width: 4px; height: 20px; border-radius: 3px; background: #1d382c; }
-.tiny-people span::before { content: ''; position: absolute; top: -7px; left: -2px; width: 8px; height: 8px; border-radius: 50%; background: #1d382c; }
-.garden-window p { position: absolute; z-index: 4; right: 7%; bottom: 5%; margin: 0; color: #faf5df; font-family: Georgia, serif; font-size: 19px; font-style: italic; line-height: 1.5; text-align: right; }
+.garden-window { position: relative; min-height: 650px; margin: 0; overflow: hidden; background: #19372a; }
+.garden-window::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(9,35,23,.65)); pointer-events: none; }
+.garden-render { display: block; width: 100%; height: 100%; min-height: 650px; object-fit: cover; object-position: 55% center; }
+.garden-window figcaption { position: absolute; z-index: 1; right: 7%; bottom: 5%; margin: 0; color: #fff9e7; font-family: Georgia, serif; font-size: 19px; font-style: italic; line-height: 1.5; text-align: right; text-shadow: 0 2px 18px rgba(6,25,17,.8); }
 
 .movement { padding: clamp(90px, 12vw, 170px) max(24px, calc((100vw - 1280px) / 2)); background: #e9eddb; }
 .section-heading { display: grid; grid-template-columns: .65fr 1.35fr; column-gap: 50px; }
@@ -156,7 +149,7 @@ footer > div { display: flex; justify-content: flex-end; gap: 26px; font-size: 1
   .garden { width: 48%; height: 42%; opacity: .7; } .garden-left { left: -16%; } .garden-right { right: -16%; }
   .scroll-cue { display: none; }
   .possibility { gap: 14px; } .possibility-copy { font-size: 17px; }
-  .garden-window { min-height: 490px; }
+  .garden-window, .garden-render { min-height: 490px; }
   .invitation { grid-template-columns: 42px 1fr 28px; gap: 14px; min-height: 0; }
   .invitation-symbol { display: none; }
   .invitation-number { grid-row: span 2; }
