@@ -6,9 +6,11 @@ const invitations = [
   { number: '05', symbol: '↗', title: 'Carry the story', text: 'Donate a dollar, share the possibility, and help Babylon travel around the world.' },
 ];
 
+const assetPath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 const atlas = [
-  { className: 'atlas-water', place: 'A quiet threshold', idea: 'Water that slows you down', image: '/babylon-courtyard-v2.jpg', alt: 'A flower-filled Babylon courtyard with a long lily pond, fountain, palms, and people gathering' },
-  { className: 'atlas-canopy', place: 'A place to wander', idea: 'Courtyards open to everyone', image: '/babylon-courtyard.jpg', alt: 'A sunlit Babylon courtyard with blue columns, fountains, lily ponds, palms, and visitors' },
+  { className: 'atlas-water', place: 'A quiet threshold', idea: 'Water that slows you down', image: `${assetPath}/babylon-courtyard-v2.jpg`, alt: 'A flower-filled Babylon courtyard with a long lily pond, fountain, palms, and people gathering' },
+  { className: 'atlas-canopy', place: 'A place to wander', idea: 'Courtyards open to everyone', image: `${assetPath}/babylon-courtyard.jpg`, alt: 'A sunlit Babylon courtyard with blue columns, fountains, lily ponds, palms, and visitors' },
   { className: 'atlas-stone', place: 'A place to gather', idea: 'Architecture that belongs to the garden' },
   { className: 'atlas-night', place: 'After sunset', idea: 'A garden that keeps the stars' },
 ];
@@ -62,7 +64,7 @@ export default function Home() {
         <figure className="garden-window">
           <img
             className="garden-render"
-            src="/babylon-lush-v4.jpg"
+            src={`${assetPath}/babylon-lush-v4.jpg`}
             alt="An imagined Babylon filled with garden terraces, waterfalls, flowers, palms, and people gathering beside the water"
             width="1535"
             height="1024"
