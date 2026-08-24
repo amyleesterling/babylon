@@ -61,7 +61,7 @@ North Star: Make Babylon a global idea before it becomes a physical place.
 Here's the plan. Working name: **Babylon** (the org) — the garden gets its real name later, from the community that builds it.
 
 **Structure**
-A nonprofit (501(c)(3)) with a land trust or conservation easement holding the acreage, so the garden can't be sold, developed, or closed. Public benefit charter: free entry, forever. Donations are tax-deductible. A separate endowment fund whose only purpose is tending — water, gardeners, maintenance — because that's what killed the original.
+A nonprofit (501(c)(3)) with a land trust or conservation easement holding the acreage, so the garden can't be sold, developed, or closed. Public benefit charter: free entry, forever. A separate endowment fund whose only purpose is tending — water, gardeners, maintenance — because that's what killed the original.
 
 **Phases**
 1. **The vision** (now to 3 months). One page, one rendering, one video. Your 3D and visualization work is the unfair advantage here — nobody else pitching a wonder can show it. The rendering *is* the fundraise.
