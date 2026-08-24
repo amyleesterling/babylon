@@ -1,5 +1,23 @@
-# babylon
-Humans team up to build a world wonder 
+# Babylon
+
+Humans team up to build a world wonder.
+
+## Live website
+
+https://amyleesterling.github.io/babylon/
+
+## Deployment — GitHub Pages only
+
+GitHub Pages is the single production host for Babylon. Do not deploy this project to OpenAI Sites, Vercel, Netlify, Cloudflare Pages, or another hosting service.
+
+- Repository: https://github.com/amyleesterling/babylon
+- Production branch: `main`
+- Deployment workflow: `.github/workflows/deploy-pages.yml`
+- Production build: `npm run build:pages`
+- Static output: `out/`
+- Public URL: https://amyleesterling.github.io/babylon/
+
+Every push to `main` automatically builds and deploys the site through GitHub Actions. Verify that the **Deploy Babylon to GitHub Pages** workflow succeeds before considering a release complete.
 
 perspectives from the ai:
 
@@ -72,4 +90,4 @@ A nonprofit (501(c)(3)) with a land trust or conservation easement holding the a
 6. **Plant, then tend forever.**
 
 **What I'll do first**
-Draft the one-page vision text and the founding-circle sign-up copy, then a bare-bones site you can put on amysterling.org or its own domain. I can start the vision draft now.
+Draft the one-page vision text and the founding-circle sign-up copy, then continue building the public website deployed through GitHub Pages.

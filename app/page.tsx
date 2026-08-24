@@ -6,7 +6,7 @@ const invitations = [
   { number: '05', symbol: '↗', title: 'Carry the story', text: 'Donate a dollar, share the possibility, and help Babylon travel around the world.' },
 ];
 
-const assetPath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+const assetPath = '/babylon';
 
 const atlas = [
   { className: 'atlas-water', place: 'A quiet threshold', idea: 'Water that slows you down', image: `${assetPath}/babylon-courtyard-v2.jpg`, alt: 'A flower-filled Babylon courtyard with a long lily pond, fountain, palms, and people gathering' },

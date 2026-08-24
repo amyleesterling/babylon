@@ -35,9 +35,6 @@ jobs:
 
       - name: Build static site
         run: npm run build:pages
-        env:
-          BUILD_TARGET: github-pages
-          NEXT_PUBLIC_BASE_PATH: /babylon
 
       - name: Disable Jekyll processing
         run: touch out/.nojekyll
