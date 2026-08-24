@@ -3,7 +3,7 @@ const invitations = [
   { number: '02', symbol: '✎', title: 'Imagine a garden', text: 'Send a photograph, a sketch, a planting idea, or a place you have carried in your mind.' },
   { number: '03', symbol: '⌖', title: 'Nominate the land', text: 'Help find an extraordinary hundred acres, with water, access, and room to endure.' },
   { number: '04', symbol: '✦', title: 'Offer what you know', text: 'Bring expertise, plants, land, materials, craft, care, or a partnership worth growing.' },
-  { number: '05', symbol: '↗', title: 'Carry the story', text: 'Pledge a dollar, share the possibility, and help Babylon travel around the world.' },
+  { number: '05', symbol: '↗', title: 'Carry the story', text: 'Donate a dollar, share the possibility, and help Babylon travel around the world.' },
 ];
 
 const atlas = [
@@ -33,7 +33,7 @@ export default function Home() {
           <h1>First, imagine<br /><em>Babylon.</em></h1>
           <p className="hero-copy">One hundred acres of water, trees, architecture, peace and wonder—created by the world, for the world.</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#movement">Join for $1 <span aria-hidden="true">→</span></a>
+            <a className="button button-primary" href="#movement">Donate $1 to help make it happen <span aria-hidden="true">→</span></a>
             <a className="button button-quiet" href="#vision">Discover the vision</a>
           </div>
           <p className="free-note"><span aria-hidden="true">✦</span> The core gardens will always be free to everyone.</p>
@@ -48,7 +48,7 @@ export default function Home() {
         <div className="possibility">
           <span className="possibility-small">IF EVEN</span>
           <strong>1%</strong>
-          <span className="possibility-copy">of humanity gave <b>$1</b>,<br />we could begin together.</span>
+          <span className="possibility-copy">of humanity donated <b>$1</b>,<br />we could begin together.</span>
         </div>
       </section>
 
@@ -134,7 +134,7 @@ export default function Home() {
         <div className="founding-sun" aria-hidden="true" />
         <p className="section-label">THE FOUNDING CIRCLE</p>
         <h2>A wonder starts<br />with a hello.</h2>
-        <p>Join the earliest circle of people who want Babylon to exist. Bring one dollar, one idea, one connection—or simply your hope.</p>
+        <p>Join the earliest circle of people who want Babylon to exist. Donate one dollar, bring one idea, make one connection—or simply share your hope.</p>
         <div className="founding-actions">
           <a className="button button-light" href="https://github.com/amyleesterling/babylon" target="_blank" rel="noreferrer">Follow the beginning <span aria-hidden="true">↗</span></a>
           <a className="button button-outline-light" href="#atlas">Imagine the garden</a>
