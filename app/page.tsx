@@ -13,6 +13,10 @@ const atlas = [
   { className: 'atlas-water', place: 'A quiet threshold', idea: 'Water that slows you down', image: `${assetPath}/babylon-courtyard-v2.jpg`, alt: 'A flower-filled Babylon courtyard with a long lily pond, fountain, palms, and people gathering' },
   { className: 'atlas-canopy', place: 'A place to wander', idea: 'Courtyards open to everyone', image: `${assetPath}/babylon-courtyard.jpg`, alt: 'A sunlit Babylon courtyard with blue columns, fountains, lily ponds, palms, and visitors' },
   { className: 'atlas-study', place: 'A study in shade', idea: 'Four ways to rest beneath the trees', image: `${assetPath}/babylon-courtyard-study.jpg`, alt: 'Four views of peaceful garden rooms with shaded seating, winding paths, palms, flowers, and warm sunset light' },
+  { className: 'atlas-hillside', place: 'A hill above the flowers', idea: 'A garden with room to do nothing', image: `${assetPath}/babylon-garden-chillin.jpg`, alt: 'A visitor resting on a grassy hillside above a vast flower garden, winding paths, waterfalls, and green mountains' },
+  { className: 'atlas-lakeside', place: 'A path beside the water', idea: 'A quiet place to choose where next', image: `${assetPath}/babylon-lakeside-pause.jpg`, alt: 'A visitor sitting beneath a leafy tree beside a winding stone path, flower beds, and a peaceful garden lake' },
+  { className: 'atlas-path', place: 'A path through green', idea: 'The long way is the point', image: `${assetPath}/babylon-garden-path.jpg`, alt: 'A stone path curving beside a stream through dense tropical foliage, palms, and bright flowers' },
+  { className: 'atlas-stream', place: 'A stream under palms', idea: 'Cool water through the living garden', image: `${assetPath}/babylon-tropical-stream.jpg`, alt: 'Stepping stones crossing a clear tropical stream surrounded by palms, ferns, mossy rocks, and red and pink flowers' },
 ];
 
 export default function Home() {
