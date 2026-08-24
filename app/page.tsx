@@ -9,10 +9,10 @@ const invitations = [
 const assetPath = '/babylon';
 
 const atlas = [
+  { className: 'atlas-gorgeous', place: 'A courtyard for lingering', idea: 'Rooms that open into the garden', image: `${assetPath}/babylon-gorgeous-courtyard.jpg`, alt: 'A tranquil garden courtyard with shaded seating, blue tile, fountains, reflecting pools, palms, and abundant flowers' },
   { className: 'atlas-water', place: 'A quiet threshold', idea: 'Water that slows you down', image: `${assetPath}/babylon-courtyard-v2.jpg`, alt: 'A flower-filled Babylon courtyard with a long lily pond, fountain, palms, and people gathering' },
   { className: 'atlas-canopy', place: 'A place to wander', idea: 'Courtyards open to everyone', image: `${assetPath}/babylon-courtyard.jpg`, alt: 'A sunlit Babylon courtyard with blue columns, fountains, lily ponds, palms, and visitors' },
-  { className: 'atlas-stone', place: 'A place to gather', idea: 'Architecture that belongs to the garden' },
-  { className: 'atlas-night', place: 'After sunset', idea: 'A garden that keeps the stars' },
+  { className: 'atlas-study', place: 'A study in shade', idea: 'Four ways to rest beneath the trees', image: `${assetPath}/babylon-courtyard-study.jpg`, alt: 'Four views of peaceful garden rooms with shaded seating, winding paths, palms, flowers, and warm sunset light' },
 ];
 
 export default function Home() {
@@ -101,7 +101,7 @@ export default function Home() {
           {atlas.map((card, index) => (
             <article className={`atlas-card ${card.className}${card.image ? ' has-image' : ''}`} key={card.place}>
               {card.image && <img className="atlas-image" src={card.image} alt={card.alt} loading="lazy" />}
-              <span className="atlas-index">{String(index + 1).padStart(2, '0')} / 04</span>
+              <span className="atlas-index">{String(index + 1).padStart(2, '0')} / {String(atlas.length).padStart(2, '0')}</span>
               <div><p>{card.place}</p><h3>{card.idea}</h3></div>
             </article>
           ))}
