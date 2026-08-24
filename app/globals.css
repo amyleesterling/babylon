@@ -79,6 +79,9 @@ h1 em { color: var(--leaf); font-weight: 400; }
 .atlas-card::before, .atlas-card::after { content: ''; position: absolute; z-index: -1; }
 .atlas-card::before { inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(7,32,21,.78)); }
 .atlas-card::after { width: 55%; height: 70%; bottom: -20%; right: -5%; border-radius: 100% 0 0; background: rgba(134,165,106,.8); box-shadow: -150px -30px 0 rgba(63,105,68,.7), -280px 50px 0 rgba(30,77,49,.8); }
+.atlas-card.has-image::after { display: none; }
+.atlas-image { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .8s ease; }
+.atlas-card.has-image:hover .atlas-image { transform: scale(1.025); }
 .atlas-water { background: linear-gradient(145deg, #d8d39f, #5f9685); }
 .atlas-canopy { background: linear-gradient(145deg, #8fa068, #254c35); }
 .atlas-stone { background: linear-gradient(145deg, #d9c99c, #987855); }
