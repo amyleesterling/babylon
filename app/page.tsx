@@ -7,8 +7,8 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type MouseEvent,
+  type PointerEvent,
 } from 'react';
 
 const assetPath = '/babylon';
@@ -86,6 +86,19 @@ const journeyStops = [
   { id: 'atlas', label: 'Atlas' },
   { id: 'promise', label: 'Promise' },
   { id: 'begin', label: 'Begin' },
+];
+
+const entryPlants = [
+  { name: 'cherry-blossom', layer: 'far', image: `${assetPath}/parallax-cherry-blossom.webp` },
+  { name: 'wisteria', layer: 'far', image: `${assetPath}/parallax-wisteria.webp` },
+  { name: 'ivy', layer: 'mid', image: `${assetPath}/parallax-ivy.webp` },
+  { name: 'rose', layer: 'mid', image: `${assetPath}/parallax-rose.webp` },
+  { name: 'hollyhock', layer: 'mid', image: `${assetPath}/parallax-hollyhock.webp` },
+  { name: 'hydrangea', layer: 'near', image: `${assetPath}/parallax-hydrangea.webp` },
+  { name: 'lavender', layer: 'near', image: `${assetPath}/parallax-lavender.webp` },
+  { name: 'rosemary', layer: 'near', image: `${assetPath}/parallax-rosemary.webp` },
+  { name: 'peony', layer: 'near', image: `${assetPath}/parallax-peony.webp` },
+  { name: 'boxwood', layer: 'near', image: `${assetPath}/parallax-boxwood.webp` },
 ];
 
 const clampScene = (value: number) =>
@@ -166,17 +179,39 @@ export default function Home() {
     go(1);
   };
 
-  const foliageStyle = (side: 'left' | 'right') =>
-    ({
-      '--journey-depth': `${scene * (side === 'left' ? -7 : 7)}px`,
-      '--journey-turn': `${scene * (side === 'left' ? -1.5 : 1.5)}deg`,
-    }) as CSSProperties;
+  const updatePointerParallax = (event: PointerEvent<HTMLElement>) => {
+    const x = event.clientX / event.currentTarget.clientWidth - 0.5;
+    const y = event.clientY / event.currentTarget.clientHeight - 0.5;
+    const style = event.currentTarget.style;
+    style.setProperty('--parallax-far-x', `${x * -8}px`);
+    style.setProperty('--parallax-far-y', `${y * -5}px`);
+    style.setProperty('--parallax-mid-x', `${x * -16}px`);
+    style.setProperty('--parallax-mid-y', `${y * -10}px`);
+    style.setProperty('--parallax-near-x', `${x * -28}px`);
+    style.setProperty('--parallax-near-y', `${y * -18}px`);
+  };
+
+  const resetPointerParallax = (event: PointerEvent<HTMLElement>) => {
+    const style = event.currentTarget.style;
+    for (const property of [
+      '--parallax-far-x',
+      '--parallax-far-y',
+      '--parallax-mid-x',
+      '--parallax-mid-y',
+      '--parallax-near-x',
+      '--parallax-near-y',
+    ]) {
+      style.setProperty(property, '0px');
+    }
+  };
 
   const currentAtlas = atlas[atlasIndex];
 
   return (
     <main
       className="journey"
+      onPointerMove={updatePointerParallax}
+      onPointerLeave={resetPointerParallax}
       onTouchStart={(event) => {
         touchStart.current = event.touches[0]?.clientY ?? null;
       }}
@@ -385,13 +420,18 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="foreground foreground-left" style={foliageStyle('left')} aria-hidden="true">
-        <i className="leaf leaf-one" /><i className="leaf leaf-two" /><i className="leaf leaf-three" />
-        <i className="blossom blossom-one" /><i className="blossom blossom-two" />
-      </div>
-      <div className="foreground foreground-right" style={foliageStyle('right')} aria-hidden="true">
-        <i className="leaf leaf-four" /><i className="leaf leaf-five" /><i className="leaf leaf-six" />
-        <i className="blossom blossom-three" /><i className="blossom blossom-four" />
+      <div
+        className={`entry-parallax ${scene === 0 ? 'is-present' : 'is-departed'}`}
+        aria-hidden="true"
+      >
+        {entryPlants.map((plant) => (
+          <span
+            className={`parallax-piece plant-${plant.name} depth-${plant.layer}`}
+            key={plant.name}
+          >
+            <img src={plant.image} alt="" draggable="false" />
+          </span>
+        ))}
       </div>
 
       <div className="journey-controls" aria-label="Journey controls">

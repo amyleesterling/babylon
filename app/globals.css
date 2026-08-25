@@ -600,138 +600,166 @@ button {
   letter-spacing: 0.08em;
 }
 
-.foreground {
-  --journey-depth: 0px;
-  --journey-turn: 0deg;
+.entry-parallax {
   position: fixed;
   z-index: 20;
-  bottom: -10vh;
-  width: min(30vw, 470px);
-  height: 80vh;
+  inset: 0;
+  overflow: hidden;
   pointer-events: none;
-  transform: translateX(var(--journey-depth)) rotate(var(--journey-turn));
-  transform-origin: bottom center;
-  transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.34));
+  perspective: 900px;
 }
 
-.foreground-left {
-  left: -8vw;
-}
-
-.foreground-right {
-  right: -8vw;
-  transform: translateX(var(--journey-depth)) rotate(var(--journey-turn)) scaleX(-1);
-}
-
-.leaf {
-  position: absolute;
-  bottom: 0;
-  display: block;
-  width: 34%;
-  height: 62%;
-  border-radius: 100% 0 100% 0;
-  background:
-    linear-gradient(72deg, transparent 48%, rgba(184, 225, 126, 0.42) 49%, transparent 52%),
-    linear-gradient(140deg, #0e4425 0%, #27683c 43%, #081f13 100%);
-  box-shadow: inset 10px -8px 28px rgba(0, 0, 0, 0.28);
-  transform-origin: 10% 100%;
-  animation: leaf-sway 7s ease-in-out infinite alternate;
-}
-
-.leaf-one {
-  left: 4%;
-  height: 72%;
-  transform: rotate(-35deg);
-}
-
-.leaf-two {
-  left: 27%;
-  height: 66%;
-  transform: rotate(-5deg) scale(0.9);
-  animation-delay: -2s;
-}
-
-.leaf-three {
-  left: 47%;
-  height: 60%;
-  transform: rotate(25deg) scale(0.8);
-  animation-delay: -4s;
-}
-
-.leaf-four {
-  left: 2%;
-  height: 76%;
-  transform: rotate(-38deg);
-}
-
-.leaf-five {
-  left: 28%;
-  height: 62%;
-  transform: rotate(-4deg) scale(0.92);
-  animation-delay: -3s;
-}
-
-.leaf-six {
-  left: 52%;
-  height: 55%;
-  transform: rotate(27deg) scale(0.82);
-  animation-delay: -5s;
-}
-
-.blossom {
+.parallax-piece {
   position: absolute;
   display: block;
-  width: 50px;
-  height: 50px;
-  border-radius: 58% 42% 56% 44%;
-  background:
-    radial-gradient(circle at 50% 50%, #ffd66c 0 8%, transparent 9%),
-    radial-gradient(ellipse at 50% 16%, #ef7da8 0 22%, transparent 23%),
-    radial-gradient(ellipse at 84% 50%, #df4f8b 0 22%, transparent 23%),
-    radial-gradient(ellipse at 50% 84%, #ef7da8 0 22%, transparent 23%),
-    radial-gradient(ellipse at 16% 50%, #c83978 0 22%, transparent 23%);
-  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.26));
-  animation: blossom-float 6s ease-in-out infinite alternate;
+  opacity: 1;
+  transform-origin: center;
+  transition:
+    opacity 750ms ease,
+    transform 1250ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
 }
 
-.blossom-one {
-  left: 35%;
-  bottom: 43%;
+.parallax-piece img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.3));
+  transition: transform 180ms ease-out;
 }
 
-.blossom-two {
-  left: 57%;
-  bottom: 24%;
-  width: 38px;
-  height: 38px;
-  animation-delay: -3s;
+.depth-far {
+  transition-duration: 1500ms;
 }
 
-.blossom-three {
-  left: 31%;
-  bottom: 38%;
-  width: 44px;
-  height: 44px;
-  animation-delay: -2s;
+.depth-far img {
+  transform: translate3d(var(--parallax-far-x, 0), var(--parallax-far-y, 0), 0);
 }
 
-.blossom-four {
-  left: 58%;
-  bottom: 20%;
-  width: 36px;
-  height: 36px;
-  animation-delay: -4s;
+.depth-mid {
+  transition-duration: 1200ms;
 }
 
-@keyframes leaf-sway {
-  from { rotate: -1deg; }
-  to { rotate: 2.5deg; }
+.depth-mid img {
+  transform: translate3d(var(--parallax-mid-x, 0), var(--parallax-mid-y, 0), 0);
 }
 
-@keyframes blossom-float {
-  from { translate: 0 0; rotate: -3deg; }
-  to { translate: 2px -7px; rotate: 4deg; }
+.depth-near {
+  transition-duration: 950ms;
+}
+
+.depth-near img {
+  transform: translate3d(var(--parallax-near-x, 0), var(--parallax-near-y, 0), 0);
+}
+
+.plant-cherry-blossom {
+  z-index: 1;
+  top: -24vh;
+  left: -9vw;
+  width: clamp(370px, 45vw, 720px);
+  transform: rotate(-5deg);
+}
+
+.plant-wisteria {
+  z-index: 2;
+  top: -21vh;
+  right: -9vw;
+  width: clamp(300px, 34vw, 530px);
+  transform: rotate(9deg);
+}
+
+.plant-ivy {
+  z-index: 2;
+  top: -10vh;
+  left: 15vw;
+  width: clamp(100px, 12vw, 180px);
+  transform: rotate(17deg);
+}
+
+.plant-rose {
+  z-index: 5;
+  bottom: 3vh;
+  left: -7vw;
+  width: clamp(150px, 15vw, 235px);
+  transform: rotate(-8deg);
+}
+
+.plant-hollyhock {
+  z-index: 4;
+  right: -7vw;
+  bottom: 2vh;
+  width: clamp(150px, 16vw, 250px);
+  transform: rotate(7deg);
+}
+
+.plant-hydrangea {
+  z-index: 4;
+  bottom: -22vh;
+  left: -10vw;
+  width: clamp(240px, 26vw, 400px);
+  transform: rotate(-10deg);
+}
+
+.plant-lavender {
+  z-index: 5;
+  bottom: -9vh;
+  left: 17vw;
+  width: clamp(150px, 14vw, 225px);
+  transform: rotate(-7deg);
+}
+
+.plant-rosemary {
+  z-index: 4;
+  right: 18vw;
+  bottom: -15vh;
+  width: clamp(130px, 13vw, 205px);
+  transform: rotate(8deg);
+}
+
+.plant-peony {
+  z-index: 5;
+  right: 1vw;
+  bottom: -20vh;
+  width: clamp(210px, 22vw, 345px);
+  transform: rotate(9deg);
+}
+
+.plant-boxwood {
+  z-index: 3;
+  right: -13vw;
+  bottom: -24vh;
+  width: clamp(270px, 29vw, 450px);
+  transform: rotate(7deg);
+}
+
+.entry-parallax.is-departed .parallax-piece {
+  opacity: 0;
+}
+
+.entry-parallax.is-departed .plant-cherry-blossom {
+  transform: translate3d(-28vw, -24vh, 140px) rotate(-14deg) scale(1.3);
+}
+
+.entry-parallax.is-departed .plant-wisteria {
+  transform: translate3d(28vw, -27vh, 150px) rotate(18deg) scale(1.34);
+}
+
+.entry-parallax.is-departed .plant-ivy {
+  transform: translate3d(-18vw, -22vh, 120px) rotate(8deg) scale(1.26);
+}
+
+.entry-parallax.is-departed .plant-rose,
+.entry-parallax.is-departed .plant-hydrangea,
+.entry-parallax.is-departed .plant-lavender {
+  transform: translate3d(-30vw, 28vh, 170px) rotate(-16deg) scale(1.36);
+}
+
+.entry-parallax.is-departed .plant-hollyhock,
+.entry-parallax.is-departed .plant-rosemary,
+.entry-parallax.is-departed .plant-peony,
+.entry-parallax.is-departed .plant-boxwood {
+  transform: translate3d(30vw, 28vh, 170px) rotate(16deg) scale(1.36);
 }
 
 .journey-controls {
@@ -821,11 +849,6 @@ button {
   .scene-shade-right {
     background:
       linear-gradient(to bottom, rgba(3, 20, 14, 0.44), rgba(3, 20, 14, 0.22) 32%, rgba(3, 20, 14, 0.73));
-  }
-
-  .foreground {
-    width: 35vw;
-    opacity: 0.9;
   }
 
   .atlas-title {
@@ -1022,24 +1045,37 @@ button {
     font-size: 14px;
   }
 
-  .foreground {
-    bottom: -4vh;
-    width: 47vw;
-    height: 53vh;
-    opacity: 0.7;
+  .plant-ivy,
+  .plant-cherry-blossom,
+  .plant-rose,
+  .plant-lavender,
+  .plant-rosemary,
+  .plant-boxwood {
+    display: none;
   }
 
-  .foreground-left {
-    left: -22vw;
+  .plant-wisteria {
+    top: -10vh;
+    right: -42vw;
+    width: 65vw;
   }
 
-  .foreground-right {
-    right: -22vw;
+  .plant-hollyhock {
+    right: -18vw;
+    bottom: -19vh;
+    width: 40vw;
   }
 
-  .blossom {
-    width: 36px;
-    height: 36px;
+  .plant-hydrangea {
+    bottom: -20vh;
+    left: -30vw;
+    width: 61vw;
+  }
+
+  .plant-peony {
+    right: -29vw;
+    bottom: -22vh;
+    width: 61vw;
   }
 
   .journey-controls {
