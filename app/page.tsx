@@ -63,7 +63,8 @@ const atlas = [
   {
     place: 'A path beside the water',
     idea: 'A quiet place to choose where next',
-    image: `${assetPath}/babylon-lakeside-pause.jpg`,
+    image: `${assetPath}/babylon-lakeside-pause-hd.jpg`,
+    focus: '68% center',
     alt: 'A visitor sitting beneath a leafy tree beside a winding stone path, flower beds, and a peaceful garden lake',
   },
   {
@@ -371,7 +372,12 @@ export default function Home() {
             />
           </div>
         ) : (
-          <img className="scene-image atlas-main-image" src={currentAtlas.image} alt={currentAtlas.alt} />
+          <img
+            className="scene-image atlas-main-image"
+            src={currentAtlas.image}
+            alt={currentAtlas.alt}
+            style={{ objectPosition: currentAtlas.focus ?? 'center' }}
+          />
         )}
         <div className="scene-shade scene-shade-atlas" />
         <div className="atlas-title">
