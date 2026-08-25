@@ -196,6 +196,19 @@ button {
   transform: scale(1);
 }
 
+.journey-scene.is-active .opening-image {
+  filter: blur(11px);
+  transform: scale(1.045);
+  transition:
+    filter 1250ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 2500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.journey-scene.is-active.is-entering .opening-image {
+  filter: none;
+  transform: scale(1);
+}
+
 .scene-shade {
   position: absolute;
   inset: 0;
@@ -206,6 +219,14 @@ button {
   background:
     linear-gradient(to bottom, rgba(2, 18, 12, 0.38), transparent 27%, transparent 63%, rgba(2, 14, 9, 0.66)),
     radial-gradient(circle at center, rgba(5, 35, 24, 0.05), rgba(2, 18, 12, 0.5));
+}
+
+.opening-shade {
+  transition: opacity 1200ms ease;
+}
+
+.opening-scene.is-entering .opening-shade {
+  opacity: 0.16;
 }
 
 .scene-shade-left {
@@ -250,6 +271,31 @@ button {
 
 .opening-copy {
   width: min(820px, calc(100vw - 48px));
+}
+
+.journey-nav,
+.opening-copy,
+.click-whisper,
+.journey-controls,
+.scene-count {
+  transition: opacity 650ms ease, transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.journey.is-entering .journey-nav,
+.journey.is-entering .opening-copy,
+.journey.is-entering .click-whisper,
+.journey.is-entering .journey-controls,
+.journey.is-entering .scene-count {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.journey.is-entering .opening-copy {
+  transform: translateY(-14px) scale(0.985);
+}
+
+.journey.is-entering .journey-nav {
+  transform: translateY(-12px);
 }
 
 .eyebrow {

@@ -133,19 +133,43 @@ const clampScene = (value: number) =>
 export default function Home() {
   const [scene, setScene] = useState(0);
   const [atlasIndex, setAtlasIndex] = useState(0);
+  const [isEntering, setIsEntering] = useState(false);
   const lastWheel = useRef(0);
   const touchStart = useRef<number | null>(null);
+  const enterTimer = useRef<number | null>(null);
+
+  const clearEnterTimer = useCallback(() => {
+    if (enterTimer.current === null) return;
+    window.clearTimeout(enterTimer.current);
+    enterTimer.current = null;
+  }, []);
 
   const goTo = useCallback((nextScene: number) => {
+    clearEnterTimer();
+    setIsEntering(false);
     setScene(clampScene(nextScene));
-  }, []);
+  }, [clearEnterTimer]);
 
   const go = useCallback(
     (direction: number) => {
+      clearEnterTimer();
+      setIsEntering(false);
       setScene((current) => clampScene(current + direction));
     },
-    [],
+    [clearEnterTimer],
   );
+
+  const enterGarden = useCallback(() => {
+    if (scene !== 0 || isEntering) return;
+    setIsEntering(true);
+    enterTimer.current = window.setTimeout(() => {
+      enterTimer.current = null;
+      setIsEntering(false);
+      setScene(1);
+    }, 2500);
+  }, [isEntering, scene]);
+
+  useEffect(() => clearEnterTimer, [clearEnterTimer]);
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
@@ -202,6 +226,10 @@ export default function Home() {
   const advanceFromScene = (event: MouseEvent<HTMLElement>) => {
     const target = event.target as HTMLElement;
     if (target.closest('button, a, [data-no-advance]')) return;
+    if (scene === 0) {
+      enterGarden();
+      return;
+    }
     go(1);
   };
 
@@ -235,7 +263,7 @@ export default function Home() {
 
   return (
     <main
-      className="journey"
+      className={`journey ${isEntering ? 'is-entering' : ''}`}
       onPointerMove={updatePointerParallax}
       onPointerLeave={resetPointerParallax}
       onTouchStart={(event) => {
@@ -269,17 +297,17 @@ export default function Home() {
       </nav>
 
       <section
-        className={sceneClass(0)}
+        className={`${sceneClass(0)} opening-scene ${isEntering ? 'is-entering' : ''}`}
         aria-hidden={scene !== 0}
         inert={scene !== 0}
         onClick={advanceFromScene}
       >
         <img
-          className="scene-image"
+          className="scene-image opening-image"
           src={`${assetPath}/babylon-goodvibe.png`}
           alt="A wide spring garden beneath pink flowering trees, with a winding stream, lawns, sculpture, flower beds, and people relaxing together"
         />
-        <div className="scene-shade scene-shade-deep" />
+        <div className="scene-shade scene-shade-deep opening-shade" />
         <div className="scene-copy scene-copy-center opening-copy">
           <p className="eyebrow">A WORLD WONDER, IMAGINED BY THE WORLD</p>
           <h1>First, imagine<br /><em>Babylon.</em></h1>
@@ -288,7 +316,7 @@ export default function Home() {
             created by the world, for the world.
           </p>
           <div className="scene-actions">
-            <button className="button button-sun" onClick={() => go(1)}>
+            <button className="button button-sun" onClick={enterGarden}>
               Enter the garden <span aria-hidden="true">→</span>
             </button>
             <button className="button button-glass" onClick={() => goTo(5)}>
