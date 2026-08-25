@@ -77,6 +77,24 @@ const atlas = [
     image: `${assetPath}/babylon-tropical-stream.jpg`,
     alt: 'Stepping stones crossing a clear tropical stream surrounded by palms, ferns, mossy rocks, and flowers',
   },
+  {
+    place: 'Through a tropical threshold',
+    idea: 'Every arch should promise another garden',
+    image: `${assetPath}/babylon-tropical-threshold.webp`,
+    alt: 'A stone path passing through a vine-covered arch in a lush tropical garden filled with large green leaves and red flowers',
+  },
+  {
+    place: 'A woodland commons',
+    idea: 'A garden made for long afternoons together',
+    image: `${assetPath}/babylon-woodland-commons.webp`,
+    alt: 'Families gathering at picnic tables beneath flowering woodland trees beside a rustic stone arch',
+  },
+  {
+    place: 'A Central American garden path',
+    idea: 'Follow the shade deeper into green',
+    image: `${assetPath}/babylon-central-american-path.webp`,
+    alt: 'A winding stone path through dense Central American tropical planting with palms, red flowers, and colorful foliage',
+  },
 ];
 
 const journeyStops = [
