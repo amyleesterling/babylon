@@ -95,6 +95,12 @@ const atlas = [
     image: `${assetPath}/babylon-central-american-path.webp`,
     alt: 'A winding stone path through dense Central American tropical planting with palms, red flowers, and colorful foliage',
   },
+  {
+    place: 'A Nordic garden above the water',
+    idea: 'Stone, birch, flowers and the long northern light',
+    image: `${assetPath}/babylon-nordic-garden.webp`,
+    alt: 'A Nordic garden with a stone path, birch trees, soft pink and purple flowers, and a view across water toward green mountains',
+  },
 ];
 
 const journeyStops = [
