@@ -8,7 +8,7 @@ https://amyleesterling.github.io/babylon/
 
 ## Deployment — GitHub Pages only
 
-GitHub Pages is the single production host for Babylon. Do not deploy this project to OpenAI Sites, Vercel, Netlify, Cloudflare Pages, or another hosting service.
+GitHub Pages is the single production host for Babylon. 
 
 - Repository: https://github.com/amyleesterling/babylon
 - Production branch: `main`
