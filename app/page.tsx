@@ -23,6 +23,13 @@ const invitations = [
 
 const atlas = [
   {
+    place: 'Spring beneath the blossoms',
+    idea: 'A garden made for being together',
+    tag: 'goodvibe',
+    image: `${assetPath}/babylon-goodvibe.png`,
+    alt: 'A wide spring garden beneath pink flowering trees, with a winding stream, lawns, sculpture, flower beds, and people relaxing together',
+  },
+  {
     place: 'A courtyard for lingering',
     idea: 'Rooms that open into the garden',
     image: `${assetPath}/babylon-gorgeous-courtyard.jpg`,
@@ -208,8 +215,8 @@ export default function Home() {
       >
         <img
           className="scene-image"
-          src={`${assetPath}/babylon-lush-v4.jpg`}
-          alt="An imagined Babylon filled with garden terraces, waterfalls, flowers, palms, and people gathering beside the water"
+          src={`${assetPath}/babylon-goodvibe.png`}
+          alt="A wide spring garden beneath pink flowering trees, with a winding stream, lawns, sculpture, flower beds, and people relaxing together"
         />
         <div className="scene-shade scene-shade-deep" />
         <div className="scene-copy scene-copy-center opening-copy">
@@ -291,7 +298,10 @@ export default function Home() {
           <h2>A garden imagined<br />from everywhere.</h2>
         </div>
         <div className="atlas-caption" aria-live="polite">
-          <span>{String(atlasIndex + 1).padStart(2, '0')} / {String(atlas.length).padStart(2, '0')}</span>
+          <div className="atlas-meta">
+            <span>{String(atlasIndex + 1).padStart(2, '0')} / {String(atlas.length).padStart(2, '0')}</span>
+            {currentAtlas.tag && <b>#{currentAtlas.tag}</b>}
+          </div>
           <p>{currentAtlas.place}</p>
           <h3>{currentAtlas.idea}</h3>
         </div>
