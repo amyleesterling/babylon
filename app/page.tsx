@@ -1,162 +1,402 @@
-const invitations = [
-  { number: '01', symbol: '◌', title: 'Join the community', text: 'Add your voice to the founding circle and help make a world-sized idea feel possible.' },
-  { number: '02', symbol: '✎', title: 'Imagine a garden', text: 'Send a photograph, a sketch, a planting idea, or a place you have carried in your mind.' },
-  { number: '03', symbol: '⌖', title: 'Nominate the land', text: 'Help find an extraordinary hundred acres, with water, access, and room to endure.' },
-  { number: '04', symbol: '✦', title: 'Offer what you know', text: 'Bring expertise, plants, land, materials, craft, care, or a partnership worth growing.' },
-  { number: '05', symbol: '↗', title: 'Carry the story', text: 'Donate a dollar, share the possibility, and help Babylon travel around the world.' },
-];
+'use client';
+
+/* eslint-disable @next/next/no-img-element -- static-exported scene art needs direct, instant crossfades */
+
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+} from 'react';
 
 const assetPath = '/babylon';
 
-const atlas = [
-  { className: 'atlas-gorgeous', place: 'A courtyard for lingering', idea: 'Rooms that open into the garden', image: `${assetPath}/babylon-gorgeous-courtyard.jpg`, alt: 'A tranquil garden courtyard with shaded seating, blue tile, fountains, reflecting pools, palms, and abundant flowers' },
-  { className: 'atlas-water', place: 'A quiet threshold', idea: 'Water that slows you down', image: `${assetPath}/babylon-courtyard-v2.jpg`, alt: 'A flower-filled Babylon courtyard with a long lily pond, fountain, palms, and people gathering' },
-  { className: 'atlas-canopy', place: 'A place to wander', idea: 'Courtyards open to everyone', image: `${assetPath}/babylon-courtyard.jpg`, alt: 'A sunlit Babylon courtyard with blue columns, fountains, lily ponds, palms, and visitors' },
-  { className: 'atlas-study', place: 'A study in shade', idea: 'Four ways to rest beneath the trees', image: `${assetPath}/babylon-courtyard-study.jpg`, alt: 'Four views of peaceful garden rooms with shaded seating, winding paths, palms, flowers, and warm sunset light' },
-  { className: 'atlas-hillside', place: 'A hill above the flowers', idea: 'A garden with room to do nothing', image: `${assetPath}/babylon-garden-chillin.jpg`, alt: 'A visitor resting on a grassy hillside above a vast flower garden, winding paths, waterfalls, and green mountains' },
-  { className: 'atlas-lakeside', place: 'A path beside the water', idea: 'A quiet place to choose where next', image: `${assetPath}/babylon-lakeside-pause.jpg`, alt: 'A visitor sitting beneath a leafy tree beside a winding stone path, flower beds, and a peaceful garden lake' },
-  { className: 'atlas-path', place: 'A path through green', idea: 'The long way is the point', image: `${assetPath}/babylon-garden-path.jpg`, alt: 'A stone path curving beside a stream through dense tropical foliage, palms, and bright flowers' },
-  { className: 'atlas-stream', place: 'A stream under palms', idea: 'Cool water through the living garden', image: `${assetPath}/babylon-tropical-stream.jpg`, alt: 'Stepping stones crossing a clear tropical stream surrounded by palms, ferns, mossy rocks, and red and pink flowers' },
+const invitations = [
+  'Join the community',
+  'Imagine a garden',
+  'Nominate the land',
+  'Offer what you know',
+  'Carry the story',
 ];
 
+const atlas = [
+  {
+    place: 'A courtyard for lingering',
+    idea: 'Rooms that open into the garden',
+    image: `${assetPath}/babylon-gorgeous-courtyard.jpg`,
+    alt: 'A tranquil garden courtyard with shaded seating, blue tile, fountains, reflecting pools, palms, and abundant flowers',
+  },
+  {
+    place: 'A quiet threshold',
+    idea: 'Water that slows you down',
+    image: `${assetPath}/babylon-courtyard-v2.jpg`,
+    alt: 'A flower-filled Babylon courtyard with a long lily pond, fountain, palms, and people gathering',
+  },
+  {
+    place: 'A place to wander',
+    idea: 'Courtyards open to everyone',
+    image: `${assetPath}/babylon-courtyard.jpg`,
+    alt: 'A sunlit Babylon courtyard with blue columns, fountains, lily ponds, palms, and visitors',
+  },
+  {
+    place: 'A study in shade',
+    idea: 'Four ways to rest beneath the trees',
+    image: `${assetPath}/babylon-courtyard-study.jpg`,
+    alt: 'Four views of peaceful garden rooms with shaded seating, winding paths, palms, flowers, and warm sunset light',
+  },
+  {
+    place: 'A hill above the flowers',
+    idea: 'A garden with room to do nothing',
+    image: `${assetPath}/babylon-garden-chillin.jpg`,
+    alt: 'A visitor resting on a grassy hillside above a vast flower garden, winding paths, waterfalls, and green mountains',
+  },
+  {
+    place: 'A path beside the water',
+    idea: 'A quiet place to choose where next',
+    image: `${assetPath}/babylon-lakeside-pause.jpg`,
+    alt: 'A visitor sitting beneath a leafy tree beside a winding stone path, flower beds, and a peaceful garden lake',
+  },
+  {
+    place: 'A path through green',
+    idea: 'The long way is the point',
+    image: `${assetPath}/babylon-garden-path.jpg`,
+    alt: 'A stone path curving beside a stream through dense tropical foliage, palms, and bright flowers',
+  },
+  {
+    place: 'A stream under palms',
+    idea: 'Cool water through the living garden',
+    image: `${assetPath}/babylon-tropical-stream.jpg`,
+    alt: 'Stepping stones crossing a clear tropical stream surrounded by palms, ferns, mossy rocks, and flowers',
+  },
+];
+
+const journeyStops = [
+  { id: 'imagine', label: 'Imagine' },
+  { id: 'wonder', label: 'Wonder' },
+  { id: 'breathe', label: 'Breathe' },
+  { id: 'atlas', label: 'Atlas' },
+  { id: 'promise', label: 'Promise' },
+  { id: 'begin', label: 'Begin' },
+];
+
+const clampScene = (value: number) =>
+  Math.max(0, Math.min(journeyStops.length - 1, value));
+
 export default function Home() {
+  const [scene, setScene] = useState(0);
+  const [atlasIndex, setAtlasIndex] = useState(0);
+  const lastWheel = useRef(0);
+  const touchStart = useRef<number | null>(null);
+
+  const goTo = useCallback((nextScene: number) => {
+    setScene(clampScene(nextScene));
+  }, []);
+
+  const go = useCallback(
+    (direction: number) => {
+      setScene((current) => clampScene(current + direction));
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    const index = journeyStops.findIndex((stop) => stop.id === hash);
+    if (index < 0) return;
+    const frame = window.requestAnimationFrame(() => setScene(index));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    const id = journeyStops[scene].id;
+    window.history.replaceState(null, '', `#${id}`);
+  }, [scene]);
+
+  useEffect(() => {
+    const onWheel = (event: WheelEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.closest('[data-no-advance]') || Math.abs(event.deltaY) < 18) return;
+      const now = Date.now();
+      if (now - lastWheel.current < 850) return;
+      lastWheel.current = now;
+      go(event.deltaY > 0 ? 1 : -1);
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.matches('input, textarea, select')) return;
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(event.key)) {
+        event.preventDefault();
+        go(1);
+      }
+      if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) {
+        event.preventDefault();
+        go(-1);
+      }
+      if (event.key === 'Home') goTo(0);
+      if (event.key === 'End') goTo(journeyStops.length - 1);
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [go, goTo]);
+
+  const sceneClass = (index: number) => {
+    if (index === scene) return 'journey-scene is-active';
+    if (index < scene) return 'journey-scene is-behind';
+    return 'journey-scene is-ahead';
+  };
+
+  const advanceFromScene = (event: MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    if (target.closest('button, a, [data-no-advance]')) return;
+    go(1);
+  };
+
+  const foliageStyle = (side: 'left' | 'right') =>
+    ({
+      '--journey-depth': `${scene * (side === 'left' ? -7 : 7)}px`,
+      '--journey-turn': `${scene * (side === 'left' ? -1.5 : 1.5)}deg`,
+    }) as CSSProperties;
+
+  const currentAtlas = atlas[atlasIndex];
+
   return (
-    <main>
-      <section className="hero" id="home">
-        <nav className="nav" aria-label="Main navigation">
-          <a className="brand" href="#home" aria-label="Babylon home"><span className="brand-mark" aria-hidden="true">B</span><span>BABYLON</span></a>
-          <div className="nav-links"><a href="#vision">The vision</a><a href="#atlas">The atlas</a><a href="#movement">Take part</a></div>
-          <a className="nav-cta" href="#founding">Join the world</a>
-        </nav>
+    <main
+      className="journey"
+      onTouchStart={(event) => {
+        touchStart.current = event.touches[0]?.clientY ?? null;
+      }}
+      onTouchEnd={(event) => {
+        if (touchStart.current === null) return;
+        const difference = touchStart.current - event.changedTouches[0].clientY;
+        if (Math.abs(difference) > 48) go(difference > 0 ? 1 : -1);
+        touchStart.current = null;
+      }}
+    >
+      <nav className="journey-nav" aria-label="Babylon journey">
+        <button className="journey-brand" onClick={() => goTo(0)} aria-label="Return to the beginning">
+          <span className="brand-mark" aria-hidden="true">B</span>
+          <span>BABYLON</span>
+        </button>
+        <div className="journey-stops" aria-label="Garden rooms">
+          {journeyStops.map((stop, index) => (
+            <button
+              className={index === scene ? 'is-current' : ''}
+              onClick={() => goTo(index)}
+              key={stop.id}
+              aria-current={index === scene ? 'step' : undefined}
+            >
+              {stop.label}
+            </button>
+          ))}
+        </div>
+        <button className="nav-cta" onClick={() => goTo(5)}>Take part</button>
+      </nav>
 
-        <div className="sun" aria-hidden="true" />
-        <div className="water-rings" aria-hidden="true"><span /><span /><span /></div>
-        <div className="garden garden-left" aria-hidden="true"><span /><span /><span /><span /></div>
-        <div className="garden garden-right" aria-hidden="true"><span /><span /><span /><span /></div>
-
-        <div className="hero-content">
+      <section
+        className={sceneClass(0)}
+        aria-hidden={scene !== 0}
+        inert={scene !== 0}
+        onClick={advanceFromScene}
+      >
+        <img
+          className="scene-image"
+          src={`${assetPath}/babylon-lush-v4.jpg`}
+          alt="An imagined Babylon filled with garden terraces, waterfalls, flowers, palms, and people gathering beside the water"
+        />
+        <div className="scene-shade scene-shade-deep" />
+        <div className="scene-copy scene-copy-center opening-copy">
           <p className="eyebrow">A WORLD WONDER, IMAGINED BY THE WORLD</p>
           <h1>First, imagine<br /><em>Babylon.</em></h1>
-          <p className="hero-copy">One hundred acres of water, trees, architecture, peace and wonder—created by the world, for the world.</p>
-          <div className="hero-actions">
-            <a className="button button-primary" href="#movement">Donate $1 to help make it happen <span aria-hidden="true">→</span></a>
-            <a className="button button-quiet" href="#vision">Discover the vision</a>
+          <p className="lead">
+            One hundred acres of water, trees, architecture, peace and wonder—
+            created by the world, for the world.
+          </p>
+          <div className="scene-actions">
+            <button className="button button-sun" onClick={() => go(1)}>
+              Enter the garden <span aria-hidden="true">→</span>
+            </button>
+            <button className="button button-glass" onClick={() => goTo(5)}>
+              Donate $1 to help make it happen
+            </button>
           </div>
           <p className="free-note"><span aria-hidden="true">✦</span> The core gardens will always be free to everyone.</p>
         </div>
-        <a className="scroll-cue" href="#vision"><span>Enter the garden</span><span aria-hidden="true">↓</span></a>
+        <p className="click-whisper">Click anywhere to walk in</p>
       </section>
 
-      <section className="question" id="vision">
-        <p className="section-label">THE QUESTION</p>
-        <h2>Why don’t we have this<br />wonder today?</h2>
-        <p className="why-not">Why couldn’t we?</p>
-        <div className="possibility">
-          <span className="possibility-small">IF EVEN</span>
-          <strong>1%</strong>
-          <span className="possibility-copy">of humanity donated <b>$1</b>,<br />we could build it together.</span>
+      <section
+        className={sceneClass(1)}
+        aria-hidden={scene !== 1}
+        inert={scene !== 1}
+        onClick={advanceFromScene}
+      >
+        <img
+          className="scene-image"
+          src={`${assetPath}/babylon-gorgeous-courtyard.jpg`}
+          alt="A tranquil garden courtyard with fountains, reflecting pools, palms, and flowers"
+        />
+        <div className="scene-shade scene-shade-left" />
+        <div className="scene-copy scene-copy-left">
+          <p className="eyebrow">THE QUESTION</p>
+          <h2>Why don’t we have<br />this wonder today?</h2>
+          <p className="why-not">Why couldn’t we?</p>
+          <div className="possibility">
+            <strong>1%</strong>
+            <span>If even 1% of humanity donated <b>$1</b>,<br />we could build it together.</span>
+          </div>
         </div>
       </section>
 
-      <section className="vision-section">
-        <div className="vision-copy">
-          <p className="section-label">A MODERN HANGING GARDEN</p>
+      <section
+        className={sceneClass(2)}
+        aria-hidden={scene !== 2}
+        inert={scene !== 2}
+        onClick={advanceFromScene}
+      >
+        <img
+          className="scene-image"
+          src={`${assetPath}/babylon-garden-chillin.jpg`}
+          alt="A visitor resting on a grassy hillside above a vast flower garden and waterfalls"
+        />
+        <div className="scene-shade scene-shade-right" />
+        <div className="scene-copy scene-copy-right">
+          <p className="eyebrow">A MODERN HANGING GARDEN</p>
           <h2>A place the world<br />can breathe in.</h2>
-          <p>Not a monument to one person, one nation, or one moment. A living place that belongs to everyone: shade and water, wildness and architecture, voices drifting through trees.</p>
-          <p>We will visit across decades and watch it change. Trees will grow. Paths will soften. Children will return with children of their own.</p>
+          <p className="lead">
+            Not a monument to one person, one nation, or one moment. A living place
+            of shade and water, wildness and architecture, open to everyone.
+          </p>
+          <p className="quiet-line">Warm sun. Cool water. Happy voices.</p>
         </div>
-        <figure className="garden-window">
-          <img
-            className="garden-render"
-            src={`${assetPath}/babylon-lush-v4.jpg`}
-            alt="An imagined Babylon filled with garden terraces, waterfalls, flowers, palms, and people gathering beside the water"
-            width="1535"
-            height="1024"
-            loading="lazy"
-          />
-          <figcaption>Warm sun. Cool water.<br />Happy voices.</figcaption>
-        </figure>
       </section>
 
-      <section className="movement" id="movement">
-        <div className="section-heading">
-          <p className="section-label">PHASE ONE · BUILD THE MOVEMENT</p>
-          <h2>The first structure<br />is this invitation.</h2>
-          <p>Babylon begins wherever someone says: I want this to exist.</p>
+      <section
+        className={`${sceneClass(3)} atlas-scene`}
+        aria-hidden={scene !== 3}
+        inert={scene !== 3}
+        data-no-advance
+      >
+        <img className="scene-image atlas-main-image" src={currentAtlas.image} alt={currentAtlas.alt} />
+        <div className="scene-shade scene-shade-atlas" />
+        <div className="atlas-title">
+          <p className="eyebrow">THE ATLAS OF BABYLON</p>
+          <h2>A garden imagined<br />from everywhere.</h2>
         </div>
-        <div className="invitation-list">
-          {invitations.map((item) => (
-            <a className="invitation" href="#founding" key={item.number}>
-              <span className="invitation-number">{item.number}</span>
-              <span className="invitation-symbol" aria-hidden="true">{item.symbol}</span>
-              <span className="invitation-copy"><strong>{item.title}</strong><span>{item.text}</span></span>
-              <span className="invitation-arrow" aria-hidden="true">↗</span>
-            </a>
+        <div className="atlas-caption" aria-live="polite">
+          <span>{String(atlasIndex + 1).padStart(2, '0')} / {String(atlas.length).padStart(2, '0')}</span>
+          <p>{currentAtlas.place}</p>
+          <h3>{currentAtlas.idea}</h3>
+        </div>
+        <div className="atlas-strip" role="group" aria-label="Choose a garden vision">
+          {atlas.map((item, index) => (
+            <button
+              key={item.place}
+              className={index === atlasIndex ? 'is-selected' : ''}
+              onClick={() => setAtlasIndex(index)}
+              aria-label={`Show ${item.place}`}
+              aria-pressed={index === atlasIndex}
+            >
+              <img src={item.image} alt="" />
+              <span>{String(index + 1).padStart(2, '0')}</span>
+            </button>
           ))}
         </div>
       </section>
 
-      <section className="atlas" id="atlas">
-        <div className="atlas-intro">
-          <div><p className="section-label">THE ATLAS OF BABYLON</p><h2>A garden imagined<br />from everywhere.</h2></div>
-          <p>The Atlas will gather thousands of ways a garden can feel. A global sketchbook of paths, habitats, courtyards, trees, memories and dreams.</p>
-        </div>
-        <div className="atlas-grid">
-          {atlas.map((card, index) => (
-            <article className={`atlas-card ${card.className}${card.image ? ' has-image' : ''}`} key={card.place}>
-              {card.image && <img className="atlas-image" src={card.image} alt={card.alt} loading="lazy" />}
-              <span className="atlas-index">{String(index + 1).padStart(2, '0')} / {String(atlas.length).padStart(2, '0')}</span>
-              <div><p>{card.place}</p><h3>{card.idea}</h3></div>
-            </article>
-          ))}
-        </div>
-        <a className="text-link" href="#founding">Add something to the Atlas <span aria-hidden="true">→</span></a>
-      </section>
-
-      <section className="promise">
-        <div className="promise-orbit" aria-hidden="true"><span>B</span></div>
-        <div className="promise-copy">
-          <p className="section-label">THE PROMISE</p>
+      <section
+        className={sceneClass(4)}
+        aria-hidden={scene !== 4}
+        inert={scene !== 4}
+        onClick={advanceFromScene}
+      >
+        <img
+          className="scene-image"
+          src={`${assetPath}/babylon-tropical-stream.jpg`}
+          alt="Stepping stones crossing a clear stream surrounded by palms, ferns, and flowers"
+        />
+        <div className="scene-shade scene-shade-left" />
+        <div className="scene-copy scene-copy-left promise-copy">
+          <p className="eyebrow">THE PROMISE</p>
           <h2>Free. Open.<br />Tended forever.</h2>
-          <p>Babylon must be as beautiful in its stewardship as it is in its gardens. Funding, decisions, feasibility, and progress will be visible from the beginning.</p>
-        </div>
-        <div className="principles">
-          <div><span>01</span><strong>Free at its heart</strong><p>The core garden remains open to everyone.</p></div>
-          <div><span>02</span><strong>Built in the open</strong><p>Clear governance, costs and progress.</p></div>
-          <div><span>03</span><strong>Rooted in place</strong><p>Water-wise, resilient and ecologically true.</p></div>
-          <div><span>04</span><strong>Made by many</strong><p>No single country, company or person owns the wonder.</p></div>
-        </div>
-      </section>
-
-      <section className="path">
-        <p className="section-label">THE LONG VIEW</p>
-        <h2>Make Babylon a global idea<br />before it becomes a physical place.</h2>
-        <div className="path-line">
-          <span className="active"><b>01</b>Imagine</span><i aria-hidden="true" />
-          <span><b>02</b>Gather</span><i aria-hidden="true" />
-          <span><b>03</b>Find the land</span><i aria-hidden="true" />
-          <span><b>04</b>Design</span><i aria-hidden="true" />
-          <span><b>05</b>Build & tend</span>
+          <p className="lead">
+            Babylon must be as beautiful in its stewardship as it is in its gardens.
+            Funding, decisions and progress will be visible from the beginning.
+          </p>
+          <div className="principle-grid">
+            <span><b>Free at its heart</b>The core garden remains open to everyone.</span>
+            <span><b>Built in the open</b>Clear governance, costs and progress.</span>
+            <span><b>Rooted in place</b>Water-wise, resilient and ecologically true.</span>
+            <span><b>Made by many</b>No one person or country owns the wonder.</span>
+          </div>
         </div>
       </section>
 
-      <section className="founding" id="founding">
-        <div className="founding-sun" aria-hidden="true" />
-        <p className="section-label">THE FOUNDING CIRCLE</p>
-        <h2>A wonder starts<br />with a hello.</h2>
-        <p>Join the earliest circle of people who want Babylon to exist. Donate one dollar, bring one idea, make one connection—or simply share your hope.</p>
-        <div className="founding-actions">
-          <a className="button button-light" href="https://github.com/amyleesterling/babylon" target="_blank" rel="noreferrer">Follow the beginning <span aria-hidden="true">↗</span></a>
-          <a className="button button-outline-light" href="#atlas">Imagine the garden</a>
+      <section
+        className={sceneClass(5)}
+        aria-hidden={scene !== 5}
+        inert={scene !== 5}
+        onClick={advanceFromScene}
+      >
+        <img
+          className="scene-image"
+          src={`${assetPath}/babylon-courtyard-v2.jpg`}
+          alt="A sunlit Babylon courtyard with a lily pond, fountain, palms, and people gathering"
+        />
+        <div className="scene-shade scene-shade-deep" />
+        <div className="scene-copy scene-copy-center final-copy">
+          <p className="eyebrow">PHASE ONE · BUILD THE MOVEMENT</p>
+          <h2>The first structure<br />is this invitation.</h2>
+          <p className="lead">Babylon begins wherever someone says: I want this to exist.</p>
+          <div className="invitation-chips">
+            {invitations.map((invitation, index) => (
+              <span key={invitation}><b>{String(index + 1).padStart(2, '0')}</b>{invitation}</span>
+            ))}
+          </div>
+          <div className="scene-actions">
+            <a
+              className="button button-sun"
+              href="https://github.com/amyleesterling/babylon"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Follow the beginning <span aria-hidden="true">↗</span>
+            </a>
+            <button className="button button-glass" onClick={() => goTo(0)}>Walk through again</button>
+          </div>
+          <p className="donate-line">Donate $1 to help make it happen. No sign-in to explore Babylon.</p>
         </div>
-        <span className="founding-note">No contribution is too small. No imagination is too large.</span>
       </section>
 
-      <footer>
-        <a className="brand footer-brand" href="#home"><span className="brand-mark">B</span><span>BABYLON</span></a>
-        <p>A world wonder, imagined and built by the world.</p>
-        <div><a href="#vision">Vision</a><a href="#atlas">Atlas</a><a href="#movement">Take part</a></div>
-      </footer>
+      <div className="foreground foreground-left" style={foliageStyle('left')} aria-hidden="true">
+        <i className="leaf leaf-one" /><i className="leaf leaf-two" /><i className="leaf leaf-three" />
+        <i className="blossom blossom-one" /><i className="blossom blossom-two" />
+      </div>
+      <div className="foreground foreground-right" style={foliageStyle('right')} aria-hidden="true">
+        <i className="leaf leaf-four" /><i className="leaf leaf-five" /><i className="leaf leaf-six" />
+        <i className="blossom blossom-three" /><i className="blossom blossom-four" />
+      </div>
+
+      <div className="journey-controls" aria-label="Journey controls">
+        <button onClick={() => go(-1)} disabled={scene === 0} aria-label="Previous garden room">←</button>
+        <span>{journeyStops[scene].label}</span>
+        <button onClick={() => go(1)} disabled={scene === journeyStops.length - 1} aria-label="Next garden room">→</button>
+      </div>
+      <div className="scene-count" aria-hidden="true">
+        <b>{String(scene + 1).padStart(2, '0')}</b>
+        <span />
+        {String(journeyStops.length).padStart(2, '0')}
+      </div>
+      <p className="sr-only" aria-live="polite">
+        Garden room {scene + 1} of {journeyStops.length}: {journeyStops[scene].label}
+      </p>
     </main>
   );
 }
