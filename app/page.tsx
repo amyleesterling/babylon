@@ -49,9 +49,10 @@ const atlas = [
   },
   {
     place: 'A study in shade',
-    idea: 'Four ways to rest beneath the trees',
+    idea: 'Three ways to rest beneath the trees',
+    layout: 'three-panel',
     image: `${assetPath}/babylon-courtyard-study.jpg`,
-    alt: 'Four views of peaceful garden rooms with shaded seating, winding paths, palms, flowers, and warm sunset light',
+    alt: 'Three views of peaceful garden rooms with shaded seating, winding paths, palms, flowers, and warm sunset light',
   },
   {
     place: 'A hill above the flowers',
@@ -350,7 +351,28 @@ export default function Home() {
         inert={scene !== 3}
         data-no-advance
       >
-        <img className="scene-image atlas-main-image" src={currentAtlas.image} alt={currentAtlas.alt} />
+        {currentAtlas.layout === 'three-panel' ? (
+          <div
+            className="scene-image atlas-main-image atlas-three-panel"
+            role="img"
+            aria-label={currentAtlas.alt}
+          >
+            <span
+              className="atlas-panel atlas-panel-top-left"
+              style={{ backgroundImage: `url(${currentAtlas.image})` }}
+            />
+            <span
+              className="atlas-panel atlas-panel-bottom-left"
+              style={{ backgroundImage: `url(${currentAtlas.image})` }}
+            />
+            <span
+              className="atlas-panel atlas-panel-bottom-right"
+              style={{ backgroundImage: `url(${currentAtlas.image})` }}
+            />
+          </div>
+        ) : (
+          <img className="scene-image atlas-main-image" src={currentAtlas.image} alt={currentAtlas.alt} />
+        )}
         <div className="scene-shade scene-shade-atlas" />
         <div className="atlas-title">
           <p className="eyebrow">THE ATLAS OF BABYLON</p>
@@ -373,7 +395,24 @@ export default function Home() {
               aria-label={`Show ${item.place}`}
               aria-pressed={index === atlasIndex}
             >
-              <img src={item.image} alt="" />
+              {item.layout === 'three-panel' ? (
+                <span className="atlas-thumb-three-panel" aria-hidden="true">
+                  <i
+                    className="atlas-panel atlas-panel-top-left"
+                    style={{ backgroundImage: `url(${item.image})` }}
+                  />
+                  <i
+                    className="atlas-panel atlas-panel-bottom-left"
+                    style={{ backgroundImage: `url(${item.image})` }}
+                  />
+                  <i
+                    className="atlas-panel atlas-panel-bottom-right"
+                    style={{ backgroundImage: `url(${item.image})` }}
+                  />
+                </span>
+              ) : (
+                <img src={item.image} alt="" />
+              )}
               <span>{String(index + 1).padStart(2, '0')}</span>
             </button>
           ))}
